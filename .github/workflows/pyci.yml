@@ -17,10 +17,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install uv
-          make install
+          uv sync
+          uv add pytest-cov
       - name: Run linter and pytest
         run: |
-          make check
+          uv run pytest --cov --cov-report=xml
+          uv run ruff check
 #      - name: Test & publish code coverage
 #        uses: paambaati/codeclimate-action@v9.0.0
 #        if: github.ref_name == 'main'

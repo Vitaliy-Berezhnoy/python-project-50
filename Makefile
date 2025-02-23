@@ -1,5 +1,5 @@
 pytest:
-		uv run pytest -s --cov
+		uv run pytest -s --cov --cov-report=term-missing
 
 install:
 	uv sync
