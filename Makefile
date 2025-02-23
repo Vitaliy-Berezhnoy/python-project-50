@@ -1,5 +1,5 @@
 pytest:
-		uv run pytest -s
+		uv run pytest -s --cov
 
 install:
 	uv sync
