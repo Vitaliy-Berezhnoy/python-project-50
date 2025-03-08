@@ -3,12 +3,9 @@ import json
 OFFSET = 4
 SPACE = ' '
 SYMBOL = {'add': '+ ', 'del': '- ', 'match': '  ', 'nested': '  '}
-LEN_SYMBOL = 2
 
 
-def making_a_stylish_conclusion(
-        diff: dict, OFFSET, SPACE, SYMBOL, LEN_SYMBOL
-        ) -> str:
+def making_a_stylish_conclusion(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
 
     def convert_value(value, depth):
         if isinstance(value, dict):
@@ -25,7 +22,7 @@ def making_a_stylish_conclusion(
         return value
 
     def make_line(t_diff: dict, key, depth):        
-        offset = SPACE * (OFFSET * depth - LEN_SYMBOL)
+        offset = SPACE * (OFFSET * depth - len(SYMBOL['add']))
         if t_diff[key]['status'] == 'mod':
             val1 = convert_value(t_diff[key]['val'], depth)
             val2 = convert_value(t_diff[key]['val2'], depth)

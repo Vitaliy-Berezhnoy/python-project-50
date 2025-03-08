@@ -6,7 +6,6 @@ import pathlib
 import yaml
 
 from diff_calc.formatters.stylish import (
-    LEN_SYMBOL,
     OFFSET,
     SPACE,
     SYMBOL,
@@ -75,8 +74,6 @@ def generate_diff(path_name_file1, path_name_file2, format_name='stylish'):
     diff = calculate_diff(data1, data2)
     match format_name:
         case 'stylish':
-            r = making_a_stylish_conclusion(
-                diff, OFFSET, SPACE, SYMBOL, LEN_SYMBOL
-                )
+            r = making_a_stylish_conclusion(diff, OFFSET, SPACE, SYMBOL)
             print(r)
             return r
