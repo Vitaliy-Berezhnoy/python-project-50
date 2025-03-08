@@ -6,3 +6,7 @@
 ### Comparison of flat files (JSON) and (YAML)
 
 [![asciicast](https://asciinema.org/a/fzKhmc0JBZESuPqaeClCi68zW.svg)](https://asciinema.org/a/fzKhmc0JBZESuPqaeClCi68zW)
+
+### An example of a recursive comparison of two files (JSON)
+
+[![asciicast](https://asciinema.org/a/kYtkrEBzpul8XtCyPHO9R87Ri.svg)](https://asciinema.org/a/kYtkrEBzpul8XtCyPHO9R87Ri)

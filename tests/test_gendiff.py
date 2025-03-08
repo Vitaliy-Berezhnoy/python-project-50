@@ -1,14 +1,19 @@
+import os
+
 from diff_calc.gendiff import generate_diff
 
 
 def test_generate_diff():
-    path_file1 = './tests/test_data/file1.json'
-    path_file2 = './tests/test_data/file2.json'
-    path_expected = './tests/test_data/correct_result.txt'
-    actual = generate_diff(path_file1, path_file2)
-    expected = open(path_expected).read()
-    assert actual == expected
-    path_file1 = './tests/test_data/file1.yaml'
-    path_file2 = './tests/test_data/file2.yaml'
-    actual = generate_diff(path_file1, path_file2)
-    assert actual == expected
+    for dir in ['1', '2']:
+        path_file1 = os.path.join('./tests/test_data', dir, 'file1.json')
+        path_file2 = os.path.join('./tests/test_data', dir, 'file2.json')
+        path_expected = os.path.join(
+            './tests/test_data', dir, 'correct_result.txt'
+            )
+        actual = generate_diff(path_file1, path_file2)
+        expected = open(path_expected).read()
+        assert actual == expected
+        path_file1 = os.path.join('./tests/test_data', dir, 'file1.yaml')
+        path_file2 = os.path.join('./tests/test_data', dir, 'file2.yaml')
+        actual = generate_diff(path_file1, path_file2)
+        assert actual == expected

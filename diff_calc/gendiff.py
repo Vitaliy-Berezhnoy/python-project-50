@@ -1,9 +1,17 @@
 import argparse
 import json
+import os
+import pathlib
 
 import yaml
 
-# from itertools import chain
+from diff_calc.formatters.stylish import (
+    LEN_SYMBOL,
+    OFFSET,
+    SPACE,
+    SYMBOL,
+    making_a_stylish_conclusion,
+)
 
 
 def prepare_arguments():
@@ -19,60 +27,56 @@ def prepare_arguments():
         help='set format of output'
         )
     args = parser.parse_args()
-    path_name_file1 = args.first_file
+    path_name_file1 = pathlib.Path(args.first_file)
     path_name_file2 = args.second_file
 #    out_format = args.format
-    print(generate_diff(path_name_file1, path_name_file2))
+    return generate_diff(path_name_file1, path_name_file2)
 
 
-def generate_diff(path_name_file1: str, path_name_file2: str):
-    if path_name_file1.endswith('.json'):
-        file1 = json.load(open(path_name_file1))
-        file2 = json.load(open(path_name_file2))
-    else:
-        with open(path_name_file1, 'r') as file_1:
-            file1 = yaml.safe_load(file_1)
-        with open(path_name_file2, 'r') as file_2:
-            file2 = yaml.safe_load(file_2)
-    print(file1)
-    print(file2)
+def load_file(path_name_file):
+    #    extension = pathlib.PurePath(path_name_file).suffix
+    _, extension = os.path.splitext(path_name_file)
+    match extension:
+        case '.json':
+            with open(path_name_file, 'r') as f:
+                data = json.load(f) 
+        case '.yaml' | '.yml':
+            with open(path_name_file, 'r') as f:
+                data = yaml.safe_load(f)
+    return data
 
-    def inner(key: str):
-        if key not in file2:
-            return f'  - {key}: {file1[key]}'
-        if file1[key] == file2[key]:
-            return f'    {key}: {file1[key]}'
-        return f'  - {key}: {file1[key]}\n  + {key}: {file2[key]}'
 
-    key_file1 = sorted(file1)
-    key_file2 = sorted(file2)
-    new_key = set(key_file2) - set(key_file1)
-#    new_key = filter(lambda key: key not in key_file1, key_file2)
-    out_list = ['{']
-    out_list.extend(list(map(inner, key_file1)))  
-    out_list.extend(list(map(lambda key: f'  + {key}: {file2[key]}', new_key)))
-    out_list.append('}')
-    result = '\n'.join(out_list)
-    result = result.replace('True', 'true')
-    result = result.replace('False', 'false')
-    return result
+def calculate_diff(in_data1, in_data2) -> dict:
+    
+    def inner(key, data1, data2) -> dict:
+        if key not in data1:
+            return {'status': 'add', 'val': data2[key]}
+        if key not in data2:
+            return {'status': 'del', 'val': data1[key]}
+        if isinstance(data1[key], dict) and isinstance(data2[key], dict):
+            return {
+                'status': 'nested',
+                'val': calculate_diff(data1[key], data2[key])
+                }
+        if data1[key] == data2[key]:
+            return {'status': 'match', 'val': data1[key]}
+        return {'status': 'mod', 'val': data1[key], 'val2': data2[key]}
+    
+    all_key = sorted(in_data1 | in_data2)
+    diff = {}   
+    for key in all_key:
+        diff[key] = inner(key, in_data1, in_data2)
+    return diff
 
-#    def inner(key: str):
-#        if key not in file2:
-#            return [(f'- {key}', file1[key])]
-#        if file1[key] == file2[key]:
-#            return [(f'  {key}', file1[key])]
-#        return [(f'- {key}', file1[key]), (f'+ {key}', file2[key])]
-#
-#    key_file1 = sorted(file1)
-#    key_file2 = sorted(file2)
-#    out_list = list(map(inner, key_file1))
-#    new_key = set(key_file2) - set(key_file1)
-#    out_list.extend(list(map(lambda key: [(f'+ {key}', file2[key])], new_key)))
-#    out_dict = dict(chain(*out_list))
-#    print(out_list)
-#    print(out_dict)
-#    result = json.dumps(out_dict, indent=2)
-#    result = result.replace('"', '')
-#    print(result)
-#    return result
+
+def generate_diff(path_name_file1, path_name_file2, format_name='stylish'):
+    data1 = load_file(path_name_file1)
+    data2 = load_file(path_name_file2)
+    diff = calculate_diff(data1, data2)
+    match format_name:
+        case 'stylish':
+            r = making_a_stylish_conclusion(
+                diff, OFFSET, SPACE, SYMBOL, LEN_SYMBOL
+                )
+            print(r)
+            return r

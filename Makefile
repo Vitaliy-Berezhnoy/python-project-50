@@ -5,7 +5,7 @@ install:
 	uv sync
 
 run:
-	uv run hexlet-python-package
+	uv run gendiff tests/test_data/1/file1.json tests/test_data/1/file2.json
 
 test:
 	uv run pytest
