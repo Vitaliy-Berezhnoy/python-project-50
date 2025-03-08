@@ -5,27 +5,28 @@ SPACE = ' '
 SYMBOL = {'add': '+ ', 'del': '- ', 'match': '  ', 'nested': '  '}
 
 
-def making_a_stylish_conclusion(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
+def convert_value(value, depth, OFFSET, SPACE):
+    if isinstance(value, dict):
+        depth += 1
+        temp = ['{\n']
+        for key in value:
+            val = convert_value(value[key], depth, OFFSET, SPACE)
+            temp.extend([f'{SPACE * OFFSET * depth}{key}: ', *val, '\n'])
+        depth -= 1
+        temp.append(f'{SPACE * OFFSET * depth}{'}'}')
+        return temp            
+    if not isinstance(value, str):
+        return json.dumps(value)
+    return value
 
-    def convert_value(value, depth):
-        if isinstance(value, dict):
-            depth += 1
-            temp = ['{\n']
-            for key in value:
-                val = convert_value(value[key], depth)
-                temp.extend([f'{SPACE * OFFSET * depth}{key}: ', *val, '\n'])
-            depth -= 1
-            temp.append(f'{SPACE * OFFSET * depth}{'}'}')
-            return temp            
-        if not isinstance(value, str):
-            return json.dumps(value)
-        return value
+
+def making_a_stylish_conclusion(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
 
     def make_line(t_diff: dict, key, depth):        
         offset = SPACE * (OFFSET * depth - len(SYMBOL['add']))
         if t_diff[key]['status'] == 'mod':
-            val1 = convert_value(t_diff[key]['val'], depth)
-            val2 = convert_value(t_diff[key]['val2'], depth)
+            val1 = convert_value(t_diff[key]['val'], depth, OFFSET, SPACE)
+            val2 = convert_value(t_diff[key]['val2'], depth, OFFSET, SPACE)
             return [f'{offset}{SYMBOL['del']}{key}: ', *val1, '\n',
                     f'{offset}{SYMBOL['add']}{key}: ', *val2, '\n']
         if t_diff[key]['status'] == 'nested':
@@ -36,7 +37,7 @@ def making_a_stylish_conclusion(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
             temp_list.append(f'{SPACE * OFFSET * depth}{'}\n'}')
             return temp_list              
         symbol = SYMBOL[t_diff[key]['status']]         
-        val = convert_value(t_diff[key]['val'], depth)
+        val = convert_value(t_diff[key]['val'], depth, OFFSET, SPACE)
         return [f'{offset}{symbol}{key}: ', *val, '\n']
     
     result = ['{\n']
