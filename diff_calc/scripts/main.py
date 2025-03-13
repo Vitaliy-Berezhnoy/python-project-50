@@ -2,7 +2,7 @@ from diff_calc.gendiff import prepare_arguments
 
 
 def main():
-    prepare_arguments()
+    print(prepare_arguments())
 
 
 if __name__ == '__main__':

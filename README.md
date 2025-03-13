@@ -10,3 +10,7 @@
 ### An example of a recursive comparison of two files (JSON)
 
 [![asciicast](https://asciinema.org/a/kYtkrEBzpul8XtCyPHO9R87Ri.svg)](https://asciinema.org/a/kYtkrEBzpul8XtCyPHO9R87Ri)
+
+### Example of the output of the result of comparing two files in the 'plain' format
+
+[![asciicast](https://asciinema.org/a/EpK9DdEeGf9SZJkjHC92wwhI3.svg)](https://asciinema.org/a/EpK9DdEeGf9SZJkjHC92wwhI3)

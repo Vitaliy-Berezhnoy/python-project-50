@@ -5,6 +5,7 @@ import pathlib
 
 import yaml
 
+from diff_calc.formatters.plain import making_a_plain_conclusion
 from diff_calc.formatters.stylish import (
     OFFSET,
     SPACE,
@@ -22,14 +23,14 @@ def prepare_arguments():
     parser.add_argument(
         '-f', '--format',
         type=str,
-        default='.json',
-        help='set format of output'
+        default='stylish',
+        help='set format of output. '
         )
     args = parser.parse_args()
     path_name_file1 = pathlib.Path(args.first_file)
     path_name_file2 = args.second_file
-#    out_format = args.format
-    return generate_diff(path_name_file1, path_name_file2)
+    out_format = args.format
+    return generate_diff(path_name_file1, path_name_file2, out_format)
 
 
 def load_file(path_name_file):
@@ -74,6 +75,6 @@ def generate_diff(path_name_file1, path_name_file2, format_name='stylish'):
     diff = calculate_diff(data1, data2)
     match format_name:
         case 'stylish':
-            r = making_a_stylish_conclusion(diff, OFFSET, SPACE, SYMBOL)
-            print(r)
-            return r
+            return making_a_stylish_conclusion(diff, OFFSET, SPACE, SYMBOL)
+        case 'plain':
+            return making_a_plain_conclusion(diff)
