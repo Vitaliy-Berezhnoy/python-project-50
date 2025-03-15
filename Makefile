@@ -5,7 +5,7 @@ install:
 	uv sync
 
 run:
-	uv run gendiff --format plain tests/test_data/2/file1.json tests/test_data/2/file2.json
+	uv run gendiff --format plain tests/test_data/file1.json tests/test_data/file2.json
 
 test:
 	uv run pytest
@@ -19,6 +19,10 @@ lint:
 check: test lint
 
 build:
+	uv build
+
+package-install:
+	uv sync
 	uv build
 
 .PHONY: install test lint selfcheck check build
