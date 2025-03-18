@@ -10,19 +10,27 @@ The Difference Calculator is a universal program that accepts the path to config
 * Support file formats: json, yaml, yml
 * Available report formats: stylish (by default), plain, json 
 ---
+### Minimum requirements for installing the package.
+1. Python version 3.10 or higher
+2. The [uv](https://docs.astral.sh/uv/) package manager.
+---
 ### Installation
 
-1. Clone the repository using the link:
+1. Install the Package manager uv
+
+      [Installation instructions](https://docs.astral.sh/uv/getting-started/installation/)
+
+2. Clone the repository using the link:
     ```sh
     git clone https://github.com/Vitaliy-Berezhnoy/python-project-50.git
     ```
 
-2. Go to the project directory:
+3. Go to the project directory:
     ```sh
     cd python-project-50
     ```
 
-3. Install the package:
+4. Install the package:
     ```sh
     make package-install
     ```

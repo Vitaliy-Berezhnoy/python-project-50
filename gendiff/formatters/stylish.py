@@ -20,7 +20,7 @@ def convert_value(value, depth, OFFSET, SPACE):
     return value
 
 
-def making_a_stylish_conclusion(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
+def make_format_stylish(diff: dict, OFFSET, SPACE, SYMBOL) -> str:
 
     def make_line(t_diff: dict, key, depth):        
         offset = SPACE * (OFFSET * depth - len(SYMBOL['add']))

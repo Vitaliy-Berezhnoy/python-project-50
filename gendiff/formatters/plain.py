@@ -32,7 +32,7 @@ def processing_key(key: str, values: dict, path='') -> list:
     return result
 
 
-def making_a_plain_conclusion(diff: dict) -> str:
+def make_format_plain(diff: dict) -> str:
     out_result = []
     for key in diff:
         out_result.extend(processing_key(key, diff[key], ''))

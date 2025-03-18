@@ -1,5 +1,5 @@
 import json
 
 
-def making_a_json_conclusion(diff: dict):
+def make_format_json(diff: dict):
     return json.dumps(diff, indent=2)

@@ -1,7 +1,10 @@
 [project]
 name = "hexlet-code"
 version = "0.1.0"
-description = "Add your description here"
+description = "The Difference Calculator. Shows the difference between two data files"
+authors = [{name = "Vitaliy Berezhnoy", email = "ipbvv@mail.ru"}]
+maintainers = [{name = "Vitalii Vorobev"}]
+repository = "https://github.com/Vitaliy-Berezhnoy/python-project-50.git"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -20,7 +23,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["diff_calc"]
+packages = ["gendiff"]
 
 [project.scripts]
-gendiff = 'diff_calc.scripts.main:main'
+gendiff = 'gendiff.scripts.gendiff:main'
