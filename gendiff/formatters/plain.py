@@ -9,15 +9,14 @@ def get_values(value) -> str:
 
 def make_line(path: str, values: dict) -> list:
     val = get_values(values['val'])
-    match values['status']:
-        case 'match':
-            return []
-        case 'del':
-            tail = 'removed'
-        case 'add':
-            tail = f"added with value: {val}"
-        case 'mod':
-            tail = f'updated. From {val} to {get_values(values['val2'])}'
+    if values['status'] == 'match':
+        return []
+    if values['status'] == 'del':
+        tail = 'removed'
+    elif values['status'] == 'add':
+        tail = f"added with value: {val}"
+    elif values['status'] == 'mod':
+        tail = f'updated. From {val} to {get_values(values['val2'])}'
     return [f"Property '{path}' was {tail}"]
 
 
