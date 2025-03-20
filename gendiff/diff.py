@@ -1,14 +1,3 @@
-from gendiff.formatters.json import make_format_json
-from gendiff.formatters.plain import make_format_plain
-from gendiff.formatters.stylish import (
-    OFFSET,
-    SPACE,
-    SYMBOL,
-    make_format_stylish,
-)
-from gendiff.parse import load_file
-
-
 def calculate_diff(in_data1, in_data2) -> dict:
     
     def inner(key, data1, data2) -> dict:
@@ -30,15 +19,3 @@ def calculate_diff(in_data1, in_data2) -> dict:
     for key in all_key:
         diff[key] = inner(key, in_data1, in_data2)
     return diff
-
-
-def generate_diff(path_name_file1, path_name_file2, format_name='stylish'):
-    data1 = load_file(path_name_file1)
-    data2 = load_file(path_name_file2)
-    diff = calculate_diff(data1, data2)
-    if format_name == 'stylish':
-        return make_format_stylish(diff, OFFSET, SPACE, SYMBOL)
-    if format_name == 'plain':
-        return make_format_plain(diff)
-    if format_name == 'json':
-        return make_format_json(diff)
