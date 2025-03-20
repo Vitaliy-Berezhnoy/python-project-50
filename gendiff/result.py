@@ -10,7 +10,7 @@ from gendiff.formatters.stylish import (
 from gendiff.parse import load_file
 
 
-def generate_result(path_name_file1, path_name_file2, format_name='stylish'):
+def generate_diff(path_name_file1, path_name_file2, format_name='stylish'):
     data1 = load_file(path_name_file1)
     data2 = load_file(path_name_file2)
     diff = calculate_diff(data1, data2)

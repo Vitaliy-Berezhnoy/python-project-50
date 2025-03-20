@@ -1,6 +1,6 @@
 import os
 
-from gendiff.result import generate_result
+from gendiff.result import generate_diff
 
 path = './tests/test_data'
 path_file1_json = os.path.join(path, 'file1.json')
@@ -14,19 +14,19 @@ path_correct_json = os.path.join(path, 'correct_json.txt')
 
 def test_generate_diff_stylish():
     expected = open(path_correct_stylish).read()
-    actual = generate_result(path_file1_json, path_file2_json)
+    actual = generate_diff(path_file1_json, path_file2_json)
     assert actual == expected
-    actual = generate_result(path_file1_yaml, path_file2_yml, 'stylish')
+    actual = generate_diff(path_file1_yaml, path_file2_yml, 'stylish')
     assert actual == expected
 
 
 def test_generate_diff_plain():
     expected = open(path_correct_plain).read()
-    actual = generate_result(path_file1_json, path_file2_yml, 'plain')
+    actual = generate_diff(path_file1_json, path_file2_yml, 'plain')
     assert actual == expected
 
 
 def test_generate_diff_json():
     expected = open(path_correct_json).read()
-    actual = generate_result(path_file1_yaml, path_file2_json, 'json')
+    actual = generate_diff(path_file1_yaml, path_file2_json, 'json')
     assert actual == expected
